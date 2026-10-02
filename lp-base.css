@@ -97,3 +97,7 @@
 
 /* Offer card value stack styling */
 #pricing .bg-slate-50 { border: 1px solid rgb(226 232 240); }
+
+.w-12 { width: 3rem; }
+.h-12 { height: 3rem; }
+.border-2 { border-width: 2px; }
