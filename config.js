@@ -159,5 +159,5 @@ window.QUIZ_CONFIG = {
     }
   ],
   "videoStorageKey": "redacao-em-acao-video-v2",
-  "landingPage": "lp.html"
+  "landingPage": "/pagina"
 };

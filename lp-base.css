@@ -3,35 +3,35 @@
   font-weight: 400;
   font-style: normal;
   font-display: swap;
-  src: url('assets/fonts/jakarta-400.ttf') format('truetype');
+  src: url('/assets/fonts/jakarta-400.ttf') format('truetype');
 }
 @font-face {
   font-family: 'Plus Jakarta Sans';
   font-weight: 500;
   font-style: normal;
   font-display: swap;
-  src: url('assets/fonts/jakarta-500.ttf') format('truetype');
+  src: url('/assets/fonts/jakarta-500.ttf') format('truetype');
 }
 @font-face {
   font-family: 'Plus Jakarta Sans';
   font-weight: 600;
   font-style: normal;
   font-display: swap;
-  src: url('assets/fonts/jakarta-600.ttf') format('truetype');
+  src: url('/assets/fonts/jakarta-600.ttf') format('truetype');
 }
 @font-face {
   font-family: 'Plus Jakarta Sans';
   font-weight: 700;
   font-style: normal;
   font-display: swap;
-  src: url('assets/fonts/jakarta-700.ttf') format('truetype');
+  src: url('/assets/fonts/jakarta-700.ttf') format('truetype');
 }
 @font-face {
   font-family: 'Plus Jakarta Sans';
   font-weight: 800;
   font-style: normal;
   font-display: swap;
-  src: url('assets/fonts/jakarta-800.ttf') format('truetype');
+  src: url('/assets/fonts/jakarta-800.ttf') format('truetype');
 }
 
 body {
@@ -153,3 +153,32 @@ p {
 
 /* Offer card value stack styling */
 #pricing .bg-slate-50 { border: 1px solid rgb(226 232 240); }
+
+/* Anti-breakage utilities for pricing stack on narrow mobile viewports */
+.whitespace-nowrap { white-space: nowrap !important; }
+.tabular-nums { font-variant-numeric: tabular-nums; }
+.leading-snug { line-height: 1.375; }
+#pricing .line-through {
+  text-decoration-thickness: 1.5px;
+  text-decoration-color: rgba(148, 163, 184, 0.8);
+}
+#pricing .stack-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+}
+#pricing .stack-label {
+  font-weight: 700;
+  color: rgb(51 65 85);
+  font-size: 0.9375rem;
+  line-height: 1.35;
+}
+#pricing .stack-price {
+  font-weight: 700;
+  white-space: nowrap !important;
+  flex-shrink: 0 !important;
+  font-variant-numeric: tabular-nums;
+  font-size: 0.9375rem;
+  letter-spacing: -0.01em;
+}

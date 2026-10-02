@@ -1,0 +1,11 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
+    { "source": "/lp.html", "destination": "/pagina", "permanent": true },
+    { "source": "/lp", "destination": "/pagina", "permanent": true }
+  ],
+  "rewrites": [
+    { "source": "/pagina", "destination": "/pagina/index.html" }
+  ]
+}
