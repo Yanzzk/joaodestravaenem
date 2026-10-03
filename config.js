@@ -1,14 +1,14 @@
 // Conteúdo editável. A data da redação é 08/11/2026, às 13h30 de Brasília.
 window.QUIZ_CONFIG = {
-  "videoUrl": "assets/vsl-otimizada.mp4",
-  "videoPoster": "assets/video-capa.jpg",
+  "videoUrl": "https://res.cloudinary.com/bnrrxqr5/video/upload/q_auto,f_auto/vsl-otimizada.mp4",
+  "videoPoster": "/assets/video-capa.jpg",
   "videoAspectRatio": "404 / 720",
   "countdown": {
     "targetDate": "2026-11-08T13:30:00-03:00",
     "eventLabel": "REDAÇÃO ENEM: 8 DE NOVEMBRO",
     "autoAdvanceMs": 8000,
-    "story": "O tempo até a prova é limitado. Um roteiro de estudo ajuda você a organizar a prática, revisar seus erros e aproveitar cada sessão. 📝",
-    "audioUrl": "assets/tic-tac-original.mp3",
+    "story": "O tempo até a prova é limitado. Um roteiro de estudo ajuda você a organizar a prática, revisar seus erros e aproveitar cada sessão.",
+    "audioUrl": "/assets/tic-tac-original.mp3",
     "audioVolume": 0.4
   },
   "transition": {

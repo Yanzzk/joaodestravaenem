@@ -3,9 +3,11 @@
   "trailingSlash": false,
   "redirects": [
     { "source": "/lp.html", "destination": "/pagina", "permanent": true },
-    { "source": "/lp", "destination": "/pagina", "permanent": true }
+    { "source": "/lp", "destination": "/pagina", "permanent": true },
+    { "source": "/quiz.html", "destination": "/quiz", "permanent": true }
   ],
   "rewrites": [
-    { "source": "/pagina", "destination": "/pagina/index.html" }
+    { "source": "/pagina", "destination": "/pagina/index.html" },
+    { "source": "/quiz", "destination": "/quiz/index.html" }
   ]
 }

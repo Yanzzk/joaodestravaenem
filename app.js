@@ -41,12 +41,34 @@
     else if (screen === 8) finalScreen();
     else question(config.questions[screen < 3 ? screen : screen - 1]);
     const heading = app.querySelector('h2');
-    if (heading) { heading.tabIndex = -1; heading.focus({preventScroll:true}); }
+    if (heading) {
+      heading.tabIndex = -1;
+      heading.style.outline = 'none';
+      heading.focus({preventScroll:true});
+    }
     window.scrollTo({top:0,behavior:'instant'});
+  }
+  function getQuestionIcon(id) {
+    switch (Number(id)) {
+      case 1:
+        return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>`;
+      case 2:
+        return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"></path><path d="M9 18h6"></path><path d="M10 22h4"></path></svg>`;
+      case 3:
+        return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>`;
+      case 4:
+        return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>`;
+      case 5:
+        return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path><path d="M21 3v5h-5"></path><path d="M21 12a9 9 0 0 1-15 6.7L3 16"></path><path d="M3 21v-5h5"></path></svg>`;
+      case 6:
+        return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"></path><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"></path><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"></path></svg>`;
+      default:
+        return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle></svg>`;
+    }
   }
   function question(data) {
     const expectedScreen = screen;
-    app.insertAdjacentHTML('beforeend', `<section class="card"><div class="question"><div class="emoji" aria-hidden="true">${escape(data.headerEmoji)}</div><h2>${escape(data.question)}</h2><div class="options">${data.options.map((option,index) => `<button class="option" type="button" data-option="${index}"><span class="option-emoji" aria-hidden="true">${escape(option.emoji)}</span><span>${escape(option.label)}</span></button>`).join('')}</div></div></section>`);
+    app.insertAdjacentHTML('beforeend', `<section class="card"><div class="question"><div class="quiz-icon-badge" aria-hidden="true">${getQuestionIcon(data.id)}</div><h2>${escape(data.question)}</h2><div class="options">${data.options.map((option,index) => `<button class="option" type="button" data-option="${index}"><span class="option-emoji" aria-hidden="true">${escape(option.emoji)}</span><span>${escape(option.label)}</span></button>`).join('')}</div></div></section>`);
     app.querySelectorAll('[data-option]').forEach(button => {
       button.addEventListener('click', () => {
         if (locked || screen !== expectedScreen) return;
@@ -102,77 +124,123 @@
     const videoUrl = safeUrl(config.videoUrl);
     const poster = safeUrl(config.videoPoster);
     const destination = safeUrl(config.landingPage);
-    app.insertAdjacentHTML('beforeend', `<section class="card final"><h2>${escape(config.finalHeadline)}</h2><div class="premium-player" role="region" aria-label="Vídeo de apresentação"><video playsinline preload="metadata" poster="${escape(poster)}" src="${escape(videoUrl)}" aria-label="Apresentação do material"></video><div class="player-overlay"><span class="play-orbit" aria-hidden="true">▶</span><p class="overlay-title">Seu próximo passo começa aqui</p><p class="overlay-subtitle">Assista à apresentação com som.</p><button class="overlay-play" type="button">Assistir com som</button><button class="overlay-restart" type="button" hidden>Assistir do início</button></div><div class="player-buffer" hidden role="status">Carregando vídeo…</div><div class="player-error" hidden role="alert"><p>Não foi possível carregar o vídeo.</p><button class="retry-video" type="button">Tentar novamente</button></div><div class="player-controls"><div class="control-row"><button class="play-toggle" type="button" aria-label="Reproduzir vídeo">▶</button><button class="mute-toggle" type="button" aria-label="Silenciar vídeo" aria-pressed="false">Som ligado</button><label class="volume-label">Volume<input class="volume-slider" aria-label="Volume do vídeo" type="range" min="0" max="1" step="0.05" value="1"></label><span class="video-time" aria-live="off">0:00 / 2:22</span><button class="fullscreen-toggle" type="button" aria-label="Tela cheia">⛶</button></div><label class="seek-label"><span class="sr-only">Posição no vídeo</span><input class="video-seek" aria-label="Posição no vídeo" type="range" min="0" max="100" step="0.1" value="0"></label></div></div><p class="player-hint">Você pode pausar, ajustar o som e continuar quando quiser.</p><a class="primary final-cta" href="${escape(destination || '/pagina')}">Conhecer o kit de estudo</a></section>`);
-    const root = app.querySelector('.premium-player');
+    app.insertAdjacentHTML('beforeend', `<section class="card final"><h2>${escape(config.finalHeadline)}</h2><div class="vsl-player-wrapper" role="region" aria-label="Apresentação do material"><video playsinline preload="metadata" poster="${escape(poster)}" src="${escape(videoUrl)}" aria-label="Vídeo de apresentação"></video><div class="vsl-center-play" aria-hidden="true"><div class="vsl-play-orb"><svg viewBox="0 0 24 24" fill="currentColor"><polygon points="7 4 19 12 7 20 7 4"></polygon></svg></div></div><div class="vsl-overlay"><div class="vsl-overlay-card"><div class="vsl-sound-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg></div><p class="vsl-overlay-title">Seu próximo passo começa aqui</p><p class="vsl-overlay-subtitle">Toque abaixo para assistir à apresentação com som.</p><button class="vsl-cta-sound" type="button">Assistir com som</button><button class="vsl-restart-btn" type="button" hidden>Assistir do início</button></div></div><div class="vsl-buffer-spinner" hidden role="status" aria-label="Carregando"></div><div class="vsl-duration-track" role="progressbar" aria-label="Progresso do vídeo"><div class="vsl-duration-fill" style="width: 0%"></div></div></div><a class="primary final-cta" href="${escape(destination || '/pagina')}">Conhecer o kit de estudo</a></section>`);
+    const root = app.querySelector('.vsl-player-wrapper');
     const video = root.querySelector('video');
-    const overlay = root.querySelector('.player-overlay');
-    const overlayTitle = root.querySelector('.overlay-title');
-    const overlaySubtitle = root.querySelector('.overlay-subtitle');
-    const mainPlay = root.querySelector('.overlay-play');
-    const restart = root.querySelector('.overlay-restart');
-    const toggle = root.querySelector('.play-toggle');
-    const mute = root.querySelector('.mute-toggle');
-    const volume = root.querySelector('.volume-slider');
-    const seek = root.querySelector('.video-seek');
-    const clock = root.querySelector('.video-time');
-    const buffer = root.querySelector('.player-buffer');
-    const error = root.querySelector('.player-error');
-    const key = config.videoStorageKey;
-    let saved = 0, lastStored = 0, resumeRequested = false;
-    try { saved = Math.max(0,Number(localStorage.getItem(key)) || 0); } catch {}
+    const overlay = root.querySelector('.vsl-overlay');
+    const overlayTitle = root.querySelector('.vsl-overlay-title');
+    const overlaySubtitle = root.querySelector('.vsl-overlay-subtitle');
+    const mainPlay = root.querySelector('.vsl-cta-sound');
+    const restart = root.querySelector('.vsl-restart-btn');
+    const centerPlay = root.querySelector('.vsl-center-play');
+    const progressFill = root.querySelector('.vsl-duration-fill');
+    const buffer = root.querySelector('.vsl-buffer-spinner');
+    const key = config.videoStorageKey || 'redacao-em-acao-video-v2';
+    let saved = 0;
+    try { saved = Math.max(0, Number(localStorage.getItem(key)) || 0); } catch {}
     if (saved > 3) {
       overlayTitle.textContent = 'Continue de onde parou';
       overlaySubtitle.textContent = 'Seu progresso ficou salvo neste aparelho.';
-      mainPlay.textContent = 'Continuar assistindo'; restart.hidden = false;
+      mainPlay.textContent = 'Continuar assistindo';
+      restart.hidden = false;
     }
-    const time = value => { value = Number.isFinite(value) ? Math.floor(value) : 0; return `${Math.floor(value/60)}:${String(value%60).padStart(2,'0')}`; };
-    const save = () => { try { localStorage.setItem(key,String(video.ended ? 0 : video.currentTime)); } catch {} };
-    const play = () => { error.hidden=true; video.play().catch(() => { buffer.hidden=true; overlay.hidden=false; mainPlay.textContent='Toque para reproduzir'; }); };
-    mainPlay.addEventListener('click', () => {
+    const save = () => {
+      try { localStorage.setItem(key, String(video.ended ? 0 : video.currentTime)); } catch {}
+    };
+    let resumeRequested = false;
+    let retryAttempts = 0;
+    const play = () => {
+      video.muted = false;
+      video.play().then(() => {
+        centerPlay.classList.add('playing');
+        overlay.classList.add('hidden');
+      }).catch(() => {
+        video.muted = true;
+        video.play().then(() => {
+          centerPlay.classList.add('playing');
+          overlay.classList.add('hidden');
+        }).catch(() => {
+          overlay.classList.remove('hidden');
+          mainPlay.textContent = 'Toque para reproduzir';
+        });
+      });
+    };
+    root.addEventListener('click', (e) => {
+      if (e.target.closest('.vsl-overlay-card') || e.target.closest('.vsl-restart-btn')) return;
+      if (overlay.classList.contains('hidden')) {
+        if (video.paused) play();
+        else video.pause();
+      }
+    });
+    mainPlay.addEventListener('click', (e) => {
+      e.stopPropagation();
       resumeRequested = true;
-      if (saved > 0 && Number.isFinite(video.duration)) { video.currentTime = Math.min(saved,Math.max(0,video.duration-1)); saved=0; }
+      if (saved > 0 && Number.isFinite(video.duration)) {
+        video.currentTime = Math.min(saved, Math.max(0, video.duration - 1));
+        saved = 0;
+      }
       play();
     });
-    restart.addEventListener('click', () => { saved=0; video.currentTime=0; save(); play(); });
-    toggle.addEventListener('click', () => video.paused ? play() : video.pause());
-    video.addEventListener('click', () => video.paused ? play() : video.pause());
-    mute.addEventListener('click', () => { video.muted=!video.muted; if (!video.muted && video.volume===0) video.volume=1; });
-    volume.addEventListener('input', () => { video.volume=Number(volume.value); video.muted=video.volume===0; });
-    video.addEventListener('volumechange', () => {
-      const silent=video.muted||video.volume===0;
-      mute.textContent=silent?'Ativar som':'Som ligado';mute.setAttribute('aria-label',silent?'Ativar som do vídeo':'Silenciar vídeo');mute.setAttribute('aria-pressed',String(silent));volume.value=String(silent?0:video.volume);
+    restart.addEventListener('click', (e) => {
+      e.stopPropagation();
+      saved = 0;
+      video.currentTime = 0;
+      save();
+      play();
     });
-    video.addEventListener('play', () => { overlay.hidden=true; toggle.textContent='Ⅱ'; toggle.setAttribute('aria-label','Pausar vídeo'); });
-    video.addEventListener('playing', () => { buffer.hidden=true; });
+    video.addEventListener('play', () => {
+      overlay.classList.add('hidden');
+      centerPlay.classList.add('playing');
+    });
     video.addEventListener('pause', () => {
-      toggle.textContent='▶';toggle.setAttribute('aria-label','Reproduzir vídeo');buffer.hidden=true;save();
-      if (!video.ended) { overlay.hidden=false;overlayTitle.textContent='Vídeo pausado';overlaySubtitle.textContent='Continue quando estiver pronto.';mainPlay.textContent='Continuar assistindo';restart.hidden=false; }
+      centerPlay.classList.remove('playing');
+      save();
     });
-    video.addEventListener('waiting', () => { if (!video.paused) buffer.hidden=false; });
-    video.addEventListener('canplay', () => { buffer.hidden=true; });
+    video.addEventListener('waiting', () => { if (!video.paused) buffer.hidden = false; });
+    video.addEventListener('playing', () => {
+      buffer.hidden = true;
+      centerPlay.classList.add('playing');
+    });
+    video.addEventListener('canplay', () => { buffer.hidden = true; });
     video.addEventListener('loadedmetadata', () => {
-      if (saved >= video.duration-2) saved=0;
-      if (resumeRequested && saved > 0) { video.currentTime=saved; saved=0; }
-      clock.textContent=`${time(video.currentTime)} / ${time(video.duration)}`;
+      if (saved >= video.duration - 2) saved = 0;
+      if (resumeRequested && saved > 0) {
+        video.currentTime = saved;
+        saved = 0;
+      }
     });
     video.addEventListener('timeupdate', () => {
-      const percent=Number.isFinite(video.duration)&&video.duration>0?video.currentTime/video.duration*100:0;
-      seek.value=String(percent);seek.style.setProperty('--played',`${percent}%`);
-      seek.setAttribute('aria-valuetext',`${time(video.currentTime)} de ${time(video.duration)}`);
-      clock.textContent=`${time(video.currentTime)} / ${time(video.duration)}`;
-      if (Math.abs(video.currentTime-lastStored)>2) { save();lastStored=video.currentTime; }
+      const percent = Number.isFinite(video.duration) && video.duration > 0
+        ? (video.currentTime / video.duration) * 100
+        : 0;
+      progressFill.style.width = `${percent}%`;
+      save();
     });
-    seek.addEventListener('input', () => { if(Number.isFinite(video.duration)) { saved=0;video.currentTime=Number(seek.value)/100*video.duration; } });
     video.addEventListener('ended', () => {
-      save();saved=0;overlay.hidden=false;overlayTitle.textContent='Apresentação concluída';overlaySubtitle.textContent='Conheça o conteúdo do kit no botão abaixo.';mainPlay.textContent='Assistir novamente';restart.hidden=true;
+      save();
+      saved = 0;
+      progressFill.style.width = '100%';
+      centerPlay.classList.remove('playing');
+      overlay.classList.remove('hidden');
+      overlayTitle.textContent = 'Apresentação concluída';
+      overlaySubtitle.textContent = 'Conheça o conteúdo do kit no botão abaixo.';
+      mainPlay.textContent = 'Assistir novamente';
+      restart.hidden = true;
     });
-    video.addEventListener('error', () => { buffer.hidden=true;error.hidden=false;overlay.hidden=true; });
-    root.querySelector('.retry-video').addEventListener('click', () => { video.load();play(); });
-    root.querySelector('.fullscreen-toggle').addEventListener('click', async () => {
-      try { if (document.fullscreenElement) await document.exitFullscreen(); else if(root.requestFullscreen) await root.requestFullscreen(); else if(video.webkitEnterFullscreen) video.webkitEnterFullscreen(); } catch {}
+    video.addEventListener('error', () => {
+      buffer.hidden = true;
+      if (retryAttempts < 2) {
+        retryAttempts++;
+        setTimeout(() => { video.load(); play(); }, 800);
+      }
     });
-    const pageExit=()=>save();window.addEventListener('pagehide',pageExit);
-    cleanup = () => { save();video.pause();window.removeEventListener('pagehide',pageExit); };
+    const pageExit = () => save();
+    window.addEventListener('pagehide', pageExit);
+    cleanup = () => {
+      save();
+      video.pause();
+      window.removeEventListener('pagehide', pageExit);
+    };
   }
   render();
 })();
