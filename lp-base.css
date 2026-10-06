@@ -182,3 +182,27 @@ p {
   font-size: 0.9375rem;
   letter-spacing: -0.01em;
 }
+
+/* DNA Visual — Vector Lockup Colors & Deliverables Cards */
+.bg-navy-master { background-color: #000A2D; }
+.bg-navy-card { background-color: #08194C; }
+.text-electric-blue { color: #0048F5; }
+.text-target-red { color: #F80203; }
+.border-electric-blue { border-color: rgba(0, 72, 245, 0.4); }
+.border-target-red { border-color: rgba(248, 2, 3, 0.35); }
+
+.badge-navy {
+  background-color: rgba(0, 72, 245, 0.15);
+  border: 1px solid rgba(0, 72, 245, 0.35);
+  color: #93c5fd;
+}
+.badge-red {
+  background-color: rgba(248, 2, 3, 0.15);
+  border: 1px solid rgba(248, 2, 3, 0.35);
+  color: #fca5a5;
+}
+.badge-green {
+  background-color: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  color: #6ee7b7;
+}
